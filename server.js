@@ -37,6 +37,9 @@ app.get('/api/albums', controllers.albums.index);
 //   res.send("hello albums")
 // })
 
+////Create a new album
+app.post('/api/albums', controllers.albums.create)
+
 
 //Starting the listening
 app.listen(process.env.PORT || 3000, function () {
