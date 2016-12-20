@@ -70,38 +70,34 @@ $(document).ready(function() {
     $('#songModal').modal();
     $('#songModal').data('album-id', id);
 
+
     $('#saveSong').on('click', function(e) {
       e.preventDefault();
       var newSong = {};
       newSong.trackNumber = $('#trackNumber').val();
       newSong.name = $('#songName').val();
       newSong._id = $('#songModal').data('album-id');
-      // console.log(newSong.serialize())
-      $('#trackNumber').val('');
-      $('#songName').val('');
-      $.ajax({
-        method: 'POST',
-        url: '/api/albums/'+newSong._id+'/songs',
-        data: newSong,
-        success: newSongSuccess,
-        error: newSongError
+      console.log(newSong)
+        $('#trackNumber').val('');
+        $('#songName').val('');
+        $.ajax({
+          method: 'POST',
+          url: '/api/albums/'+newSong._id+'/songs',
+          data: newSong,
+          success: newSongSuccess,
+          error: newSongError
       });
-      $.ajax({
-        method: 'GET',
-        url: '/api/albums/'+newSong._id,
-        success: appendSong,
-        error: appendSongError
-      });
+    });
       // console.log(newSong);
-});
-
-
-
-
-
-  console.log('new book serialized', $(this).serializeArray());
 
 });
+
+
+
+
+  // console.log('new book serialized', $(this).serializeArray());
+
+// });
 // renderAlbum(sampleAlbums[0])
 
 // sampleAlbums.forEach(renderAlbum);
@@ -126,6 +122,12 @@ $(document).ready(function() {
     // $('#saveSong input').val('');
     // allBooks.push(json);
     // render();
+    $.ajax({
+      method: 'GET',
+      url: '/api/albums/'+json._id,
+      success: appendSong,
+      error: appendSongError
+    });
     console.log('success',json)
   }
 

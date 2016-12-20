@@ -61,14 +61,17 @@ function newSong(req, res){
       console.log(err)
       res.send("No projects found", err)
     }
-    var songToSave = new Song (req.body)
+    var songToSave
+    songToSave = new Song (req.body)
+    if(songToSave.trackNumber){
     foundAlbum[0].songs.push(songToSave)
     foundAlbum[0].save(function(err, savedSongInAlbum){
       if(err){
         res.json(err)
       }
-      res.json(songToSave)
+      res.json(foundAlbum[0])
     })
+    }
     // res.json(foundAlbum);
 });
 }
