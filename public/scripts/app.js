@@ -62,13 +62,45 @@ $(document).ready(function() {
        error: handleError
      });
    });
+
+   $('#albums').on('click', '.add-song', function(e) {
+    // console.log('add-song clicked!');
+    var id= $(this).closest('.album').data('album-id'); // "5665ff1678209c64e51b4e7b"
+    // console.log('id',id);
+    $('#songModal').modal();
+    $('#songModal').data('album-id', id);
+
+    $('#saveSong').on('click', function(e) {
+      e.preventDefault();
+      var newSong = {};
+      newSong.trackNumber = $('#trackNumber').val();
+      newSong.songName = $('#songName').val();
+      newSong._id = $('#songModal').data('album-id');
+      console.log(newSong.serialize())
+      $.ajax({
+        method: 'POST',
+        url: '/api/albums/songs',
+        data: newSong.serializeArray(),
+        success: newSongSuccess,
+        error: newSongError
+      });
+      console.log(newSong);
+});
+
+
+
+
+
+  console.log('new book serialized', $(this).serializeArray());
+
+});
 // renderAlbum(sampleAlbums[0])
 
 // sampleAlbums.forEach(renderAlbum);
 
 
   function handleSuccess(json){
-    console.log(json);
+    console.log('get all albums', json);
   json.forEach(renderAlbum);
   };
 
@@ -82,6 +114,15 @@ $(document).ready(function() {
     renderAlbum(json);
   }
 
+  function newSongSuccess(json) {
+    $('#saveSong input').val('');
+    allBooks.push(json);
+    render();
+  }
+
+  function newSongError() {
+    console.log('newbook error!');
+  }
 });
 
 
@@ -93,5 +134,5 @@ function renderAlbum(album) {
 
   console.log('rendering album:', album);
 var albumsHtml = template(album);
- $('#appendAlbum').append(albumsHtml);
+ $('#albums').append(albumsHtml);
 };

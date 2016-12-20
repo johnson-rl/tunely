@@ -46,11 +46,22 @@ function update(req, res) {
   // and send it back as JSON
 }
 
+function newSong(req, res){
+  db.Album.find({_id: req.body._id}, function(err, Album){
+    if (err){
+      console.log(err)
+      res.send("No projects found", err)
+    }
+    res.json(Album);
+});
+}
+
 // controllers/albumsController.js
 module.exports = {
   index: index,
   create: create,
   show: show,
   destroy: destroy,
-  update: update
+  update: update,
+  newSong: newSong
 };

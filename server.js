@@ -40,6 +40,8 @@ app.get('/api/albums', controllers.albums.index);
 ////Create a new album
 app.post('/api/albums', controllers.albums.create)
 
+app.put('/api/albums/songs', controllers.albums.newSong)
+
 
 //Starting the listening
 app.listen(process.env.PORT || 3000, function () {
