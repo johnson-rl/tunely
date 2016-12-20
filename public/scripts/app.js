@@ -92,6 +92,19 @@ $(document).ready(function() {
 
 });
 
+$('#albums').on('click','.delete-album', (function(e) {
+  e.preventDefault();
+console.log('clicked delete button to', '/api/albums/');
+var id= $(this).closest('.album').data('album-id'); // "5665ff1678209c64e51b4e7b"
+$.ajax({
+  method: 'DELETE',
+  url: '/api/albums/'+ id,
+  success: deleteAlbumSuccess,
+  error: deleteAlbumError
+
+});
+ $('[data-album-id='+id+']').html('');
+}));
 
 
 
@@ -145,6 +158,15 @@ $(document).ready(function() {
   function appendSongError(err){
     console.log("not appended", err)
   }
+
+function deleteAlbumSuccess(){
+
+}
+
+function deleteAlbumError(){
+
+}
+
 });
 
 
