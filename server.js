@@ -40,7 +40,11 @@ app.get('/api/albums', controllers.albums.index);
 ////Create a new album
 app.post('/api/albums', controllers.albums.create)
 
-app.put('/api/albums/songs', controllers.albums.newSong)
+////Get one albumId
+app.get('/api/albums/:album_id', controllers.albums.show)
+
+////Add a song to an album
+app.post('/api/albums/:album_id/songs', controllers.albums.newSong)
 
 
 //Starting the listening

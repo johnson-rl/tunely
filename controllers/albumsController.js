@@ -1,6 +1,8 @@
 
 var db = require('../models');
 // controllers/albumsController.js
+
+
 // GET /api/albums
 function index(req, res) {
   // send back all albums as JSON
@@ -33,6 +35,13 @@ function create(req, res) {
 // GET /api/albums/:albumId
 function show(req, res) {
   // find one album by id and send it back as JSON
+  db.Album.findOne({_id: req.params.album_id}, function(err, oneAlbum){
+    if (err){
+      console.log(err)
+      res.send("No projects found", err)
+    }
+    res.json(oneAlbum)
+  });
 }
 
 // DELETE /api/albums/:albumId
@@ -47,12 +56,20 @@ function update(req, res) {
 }
 
 function newSong(req, res){
-  db.Album.find({_id: req.body._id}, function(err, Album){
+  db.Album.find({_id: req.params.album_id}, function(err, foundAlbum){
     if (err){
       console.log(err)
       res.send("No projects found", err)
     }
-    res.json(Album);
+    var songToSave = new Song (req.body)
+    foundAlbum[0].songs.push(songToSave)
+    foundAlbum[0].save(function(err, savedSongInAlbum){
+      if(err){
+        res.json(err)
+      }
+      res.json(songToSave)
+    })
+    // res.json(foundAlbum);
 });
 }
 

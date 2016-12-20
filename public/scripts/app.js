@@ -74,17 +74,25 @@ $(document).ready(function() {
       e.preventDefault();
       var newSong = {};
       newSong.trackNumber = $('#trackNumber').val();
-      newSong.songName = $('#songName').val();
+      newSong.name = $('#songName').val();
       newSong._id = $('#songModal').data('album-id');
-      console.log(newSong.serialize())
+      // console.log(newSong.serialize())
+      $('#trackNumber').val('');
+      $('#songName').val('');
       $.ajax({
         method: 'POST',
-        url: '/api/albums/songs',
-        data: newSong.serializeArray(),
+        url: '/api/albums/'+newSong._id+'/songs',
+        data: newSong,
         success: newSongSuccess,
         error: newSongError
       });
-      console.log(newSong);
+      $.ajax({
+        method: 'GET',
+        url: '/api/albums/'+newSong._id,
+        success: appendSong,
+        error: appendSongError
+      });
+      // console.log(newSong);
 });
 
 
@@ -115,15 +123,29 @@ $(document).ready(function() {
   }
 
   function newSongSuccess(json) {
-    $('#saveSong input').val('');
-    allBooks.push(json);
-    render();
+    // $('#saveSong input').val('');
+    // allBooks.push(json);
+    // render();
+    console.log('success',json)
   }
 
   function newSongError() {
     console.log('newbook error!');
   }
+
+  function appendSong (json) {
+    var albumsHtml = template(json);
+     $('[data-album-id='+json._id+']').html(albumsHtml);
+     $('#songModal').modal('hide');
+     console.log("appended", json);
+  }
+
+  function appendSongError(err){
+    console.log("not appended", err)
+  }
 });
+
+
 
 
 
