@@ -46,6 +46,8 @@ app.get('/api/albums/:album_id', controllers.albums.show)
 ////Add a song to an album
 app.post('/api/albums/:album_id/songs', controllers.albums.newSong)
 
+app.delete('/api/albums/:album_id', controllers.albums.destroy)
+
 
 //Starting the listening
 app.listen(process.env.PORT || 3000, function () {
